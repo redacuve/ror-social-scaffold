@@ -9,5 +9,10 @@ class User < ApplicationRecord
   has_many :posts
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :user_friendships, -> { where status: 'confirmed' }
+  has_many :friends, through: :user_friendships, source: 'friendship'
+
+#  scope :friends, -> { where(user_frienships: { status: 'confirmed' } ) }
+
   
 end
