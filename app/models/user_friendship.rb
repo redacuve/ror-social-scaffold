@@ -1,0 +1,3 @@
+class UserFriendship < ApplicationRecord
+    
+end
