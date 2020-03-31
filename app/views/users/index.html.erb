@@ -3,8 +3,15 @@
     <% @users.each do |user| %>
       <li>
         Name: <%= user.name %>
-        <span class="profile-link">
-          <%= link_to 'See Profile',  user_path(user), class: 'profile-link' %>
+        <span class="file-link">
+          <% if user_signed_in? %>
+            <%= link_to 'See Profile',  user_path(user), class: 'profile-link' %>
+          <% end %>
+          <% unless current_user == user || 
+                    current_user.friends_with?(user.id) || 
+                    current_user.invitations.to_user(user.id).with_status('requested').any? %>
+            <%= link_to 'Add Friend',  user_path(user), class: 'profile-link' %>
+          <% end %>
         </span>
       </li>
     <% end %>

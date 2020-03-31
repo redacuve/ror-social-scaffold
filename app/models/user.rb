@@ -18,5 +18,9 @@ class User < ApplicationRecord
   has_many :invitees, through: :invitations, source: 'friend'
   has_many :requestors, through: :requests, source: 'requestor'
 
-  scope :with_status, ->(status) { where "user_friendships.status = ?", status}
+  scope :with_status, ->(status) { where 'user_friendships.status = ?', status }
+
+  def friends_with?(user_id)
+    friendships.where('friend_id = ?', user_id).any?
+  end
 end
