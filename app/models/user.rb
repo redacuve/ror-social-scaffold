@@ -20,7 +20,15 @@ class User < ApplicationRecord
 
   scope :with_status, ->(status) { where 'user_friendships.status = ?', status }
 
+  def pending_friend?(user_id)
+    invitations.to_user(user_id).with_status('requested').exists?
+  end
+
+  def pending_requests?(user_id)
+    requests.from_user(user_id).with_status('requested').exists?
+  end
+
   def friends_with?(user_id)
-    friendships.where('friend_id = ?', user_id).any?
+    friendships.where('friend_id = ?', user_id).exists?
   end
 end
