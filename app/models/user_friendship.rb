@@ -1,7 +1,7 @@
 class UserFriendship < ApplicationRecord
   validates :user_id, presence: true
   validates :friend_id, presence: true
-  validates :status, presence: true, acceptance: { accept: ['requested', 'confirmed', 'declined', 'cancelled'] }
+  validates :status, presence: true, acceptance: { accept: %w[requested confirmed declined cancelled] }
 
   belongs_to :requestor, class_name: 'User', foreign_key: 'user_id'
   belongs_to :friend, class_name: 'User'

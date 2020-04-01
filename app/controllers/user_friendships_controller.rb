@@ -1,5 +1,5 @@
 class UserFriendshipsController < ApplicationController
-  before_action :set_userfriendship, only: [:show, :edit, :update, :destroy]
+  before_action :set_userfriendship, only: %i[show edit update destroy]
 
   def index
     @user_friendships = UserFriendship.all

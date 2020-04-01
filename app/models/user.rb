@@ -10,16 +10,15 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 
-  has_many :friendships, -> { where status: 'confirmed' }, class_name: 'UserFriendship', foreign_key: 'user_id' 
+  has_many :friendships, -> { where status: 'confirmed' }, class_name: 'UserFriendship', foreign_key: 'user_id'
   has_many :invitations, class_name: 'UserFriendship', foreign_key: 'user_id'
   has_many :requests, class_name: 'UserFriendship', foreign_key: 'friend_id'
-  
+
   has_many :friends, through: :friendships, source: 'friend'
   has_many :invitees, through: :invitations, source: 'friend'
   has_many :requestors, through: :requests, source: 'requestor'
 
   scope :with_status, ->(status) { where 'user_friendships.status = ?', status }
-  
 
   def pending_requests
     requests.with_status('requested')
