@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 RSpec.feature 'Vistor signs in' do
@@ -17,4 +16,3 @@ def sign_up_with(email, password)
   fill_in 'Password', with: password
   click_button 'Log in'
 end
-
