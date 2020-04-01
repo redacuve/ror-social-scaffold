@@ -1,4 +1,6 @@
 class UserFriendshipsController < ApplicationController
+  before_action :set_userfriendship, only: [:show, :edit, :update, :destroy]
+
   def index
     @user_friendships = UserFriendship.all
   end
@@ -16,6 +18,17 @@ class UserFriendshipsController < ApplicationController
       flash[:alert] = 'Your request cannot be process, try again later'
     end
     redirect_back fallback_location: users_path
+  end
+
+  def edit; end
+
+  def update
+    if @user_friendship.update(status: params[:status])
+      flash[:notice] = 'You responded to this invitation'
+    else
+      flash[:alert] = 'You cannot respond to this invitation right now please try again later'
+    end
+    redirect_to current_user
   end
 
   private
