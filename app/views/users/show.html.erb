@@ -1,9 +1,26 @@
 <section class="user-section">
   <h2><%= "Name: #{@user.name}" %></h2>
+  <% unless current_user == @user ||
+                    @user.pending_friend?(current_user.id) || 
+                    current_user.friends_with?(@user.id) || 
+                    current_user.invitations.to_user(@user.id).with_status('requested').exists? %>
+      <%= link_to 'Add Friend',  user_friendships_path(user_friendship: {user_id: current_user.id, friend_id: @user.id}), class: 'profile-link', method: 'post' %>
+  <% end %>
   <article class="timeline">
     <h3>Recent posts:</h3>
     <ul class="posts">
       <%= render @posts %>
     </ul>
   </article>
+  <% if @user == current_user && current_user.requests.any? %>
+  <section class="pend-requests-section">
+    <article class="requests">
+     <h3>Pending Requests:</h3>
+       <ul class="request-list">
+         <%= render 'user_friendships/friend_requests', requests: current_user.pending_requests %>
+       </ul>
+    </article>
+  </section>
+<% end %>
 </section>
+

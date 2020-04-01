@@ -5,6 +5,7 @@ $primary-color: #8bc34a;
 $primary-color-light: #dcedc8;
 $primary-color-text: #212121;
 $divider-color: #bdbdbd;
+$primary-color-danger: rgba(167, 32, 8, 0.746);
 
 * {
   margin: 0;
@@ -161,7 +162,12 @@ form {
     }
   }
 }
-
+.d-flex {
+  display: flex;
+}
+.just-between{
+  justify-content: space-between;
+}
 .title {
   text-align: center;
   margin-bottom: 16px;
@@ -307,6 +313,11 @@ form {
   h2 {
     text-transform: capitalize;
   }
+  .profile-link {
+    font-size: 0.8em;
+    margin: 0 0 8px 0;
+    color: $primary-color-dark;
+  }
 
   .timeline {
     width: 100%;
@@ -316,6 +327,40 @@ form {
     justify-content: start;
   }
 }
+.pend-requests-section {
+  width: 100%;
+
+  h3 {
+    text-transform: capitalize;
+    margin-top: 1em;
+    margin-bottom: 1em;;
+  }
+  li {
+    padding-bottom: .3em;
+    padding-top: .3em;
+    border-bottom: 1px solid #bdbdbd;
+    small{
+      color: #bdbdbd;
+      align-self: start;
+    }
+  }
+  .profile-link {
+    font-size: 0.8em;
+    margin: 0 8px 8px 0;
+  }
+  .red {
+    color: $primary-color-danger !important;
+  }
+  
+  .requests {
+    width: 100%;
+    h3 {
+      width: 100%;
+    }
+    justify-content: start;
+  }
+}
+
 
 @media only screen and (min-width: 480px) {
   form {

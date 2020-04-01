@@ -1,0 +1,13 @@
+
+<% requests.each do |r| %>
+  <li class = "d-flex just-between"> 
+    <div>
+      <%= link_to r.requestor.name, r.requestor %>
+      <small><%= " - "+time_ago_in_words(r.created_at)+" ago" %></small>
+    </div>
+    <div>
+      <%= link_to 'Accept', '#', class: 'profile-link' %>
+      <%= link_to 'Decline', '#', class: 'profile-link red' %>
+    </div>
+  </li>
+<% end %>
