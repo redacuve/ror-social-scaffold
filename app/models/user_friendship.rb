@@ -9,4 +9,25 @@ class UserFriendship < ApplicationRecord
   scope :with_status, ->(status) { where 'status = ?', status }
   scope :to_user, ->(user_id) { where 'friend_id = ?', user_id }
   scope :from_user, ->(user_id) { where 'user_id = ?', user_id }
+
+  def self.make_invite(u_id, f_id)
+    if where(user_id: u_id, friend_id: f_id).exists?
+      where(user_id: u_id, friend_id: f_id).update(status: 'requested')
+    else
+      create( user_id: u_id, friend_id: f_id, status: 'requested')
+    end
+  end
+
+  def self.make_friends(u_id, f_id)
+    if where(user_id: u_id, friend_id: f_id).exists?
+      where(user_id: u_id, friend_id: f_id).update(status: 'confirmed')
+    else
+      create( user_id: u_id, friend_id: f_id, status: 'confirmed')
+    end
+    if where(user_id: f_id, friend_id: u_id).exists?
+      where(user_id: f_id, friend_id: u_id).update(status: 'confirmed')
+    else
+      create( user_id: f_id, friend_id: u_id, status: 'confirmed')
+    end
+  end
 end

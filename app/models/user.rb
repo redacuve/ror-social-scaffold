@@ -35,4 +35,14 @@ class User < ApplicationRecord
   def friends_with?(user_id)
     friendships.where('friend_id = ?', user_id).exists?
   end
+
+  def invite(user_id)
+    invitations.make_invite(id, user_id)
+  end
+
+  def accept_request_from(user_id)
+    requests.make_friends(id, user_id)
+  end
+
+
 end

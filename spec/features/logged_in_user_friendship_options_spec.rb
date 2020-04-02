@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitations/requests' do
+
+RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitations/requests:' do
   background do
     User.create(name: 'user_one', email: 'user_one@email.com', password: '123456')
     User.create(name: 'user_two', email: 'user_two@email.com', password: '123456')
