@@ -7,7 +7,7 @@ RSpec.feature 'Vistor signs in' do
   scenario 'with valid email and password' do
     sign_in_with 'user@email.com', '123456'
     expect(page).to have_content('Sign out')
-  end  
+  end
   scenario 'with in-valid email and/or password' do
     sign_in_with 'noexist@email.com', '123'
     expect(page).to have_content('Sign in')

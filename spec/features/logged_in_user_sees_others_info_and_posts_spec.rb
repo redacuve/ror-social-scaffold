@@ -12,14 +12,14 @@ RSpec.feature 'Logged in user can see other users' do
     expect(page).to have_content('Name: user_one')
     expect(page).to have_content('Name: user_two')
     expect(page).to have_content('Name: user_three')
-  end  
+  end
   scenario 'User is able to see selected user page with their name and posts' do
     sign_in_with 'user_one@email.com', '123456'
     click_link('All users')
-    click_link('See Profile', href: "/users/#{ User.find_by(name: 'user_two').id }")
+    click_link('See Profile', href: "/users/#{User.find_by(name: 'user_two').id}")
     expect(page).to have_content('Name: user_two')
     expect(page).to have_content('Recent posts:')
-  end  
+  end
 end
 
 def sign_in_with(email, password)
