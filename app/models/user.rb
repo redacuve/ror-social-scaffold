@@ -37,11 +37,11 @@ class User < ApplicationRecord
   end
 
   def invite(user_id)
-    invitations.make_invite(id, user_id)
+    UserFriendship.update_invite(id, user_id, 'requested')
   end
 
   def accept_request_from(user_id)
-    requests.make_friends(id, user_id)
+    UserFriendship.update_friendship(id, user_id, 'confirmed')
   end
 
 

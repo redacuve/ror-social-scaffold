@@ -10,24 +10,24 @@ class UserFriendship < ApplicationRecord
   scope :to_user, ->(user_id) { where 'friend_id = ?', user_id }
   scope :from_user, ->(user_id) { where 'user_id = ?', user_id }
 
-  def self.make_invite(u_id, f_id)
+  def self.update_invite(u_id, f_id, status)
     if where(user_id: u_id, friend_id: f_id).exists?
-      where(user_id: u_id, friend_id: f_id).update(status: 'requested')
+      where(user_id: u_id, friend_id: f_id).update(status: status)
     else
-      create( user_id: u_id, friend_id: f_id, status: 'requested')
+      create( user_id: u_id, friend_id: f_id, status: status)
     end
   end
 
-  def self.make_friends(u_id, f_id)
+  def self.update_friendship(u_id, f_id, status)
     if where(user_id: u_id, friend_id: f_id).exists?
-      where(user_id: u_id, friend_id: f_id).update(status: 'confirmed')
+      where(user_id: u_id, friend_id: f_id).update(status: status)
     else
-      create( user_id: u_id, friend_id: f_id, status: 'confirmed')
+      create( user_id: u_id, friend_id: f_id, status: status)
     end
     if where(user_id: f_id, friend_id: u_id).exists?
-      where(user_id: f_id, friend_id: u_id).update(status: 'confirmed')
+      where(user_id: f_id, friend_id: u_id).update(status: status)
     else
-      create( user_id: f_id, friend_id: u_id, status: 'confirmed')
+      create( user_id: f_id, friend_id: u_id, status: status)
     end
   end
 end
