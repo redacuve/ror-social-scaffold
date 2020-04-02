@@ -14,7 +14,7 @@ RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitati
   end
 
   scenario 'User is able to see his friend requests pending response' do
-    User.find(1).invitations.create(friend_id: 2, status:'requested')
+    User.first.invitations.create(friend_id: User.find_by(email: 'user_two@email.com').id, status:'requested')
     sign_in_with 'user_two@email.com', '123456'
     click_on 'Logged as: UserTwo'
     expect(page).to have_content('Pending Requests:')
@@ -24,17 +24,17 @@ RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitati
   end
 
   scenario 'User is able to accept his friend requests pending response' do
-    User.find(1).invitations.create(friend_id: 2, status:'requested')
+    User.first.invitations.create(friend_id: User.find_by(email: 'user_two@email.com').id, status:'requested')
     sign_in_with 'user_two@email.com', '123456'
     click_on 'Logged as: UserTwo'
     click_on 'Accept'
-    expect(page).to have_content('You responded to this invitation:')
+    expect(page).to have_content('You responded to this invitation')
     expect(page).to_not have_content('Accept')
     expect(page).to_not have_content('Decline')
   end
   
   scenario 'User is able to decline his friend requests pending response' do
-    User.find(1).invitations.create(friend_id: 2, status:'requested')
+    User.first.invitations.create(friend_id: User.find_by(email: 'user_two@email.com').id, status:'requested')
     sign_in_with 'user_two@email.com', '123456'
     click_on 'Logged as: UserTwo'
     click_on 'Decline'
