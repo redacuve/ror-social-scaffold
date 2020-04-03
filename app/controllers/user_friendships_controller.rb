@@ -18,6 +18,18 @@ class UserFriendshipsController < ApplicationController
     redirect_back fallback_location: users_path
   end
 
+  def destroy
+    @user_inverse = UserFriendship.where(user_id: @user_friendship.friend_id, friend_id: @user_friendship.user_id).first
+    if @user_friendship.destroy
+        if @user_inverse.destroy
+          flash[:notice] = 'You have deleted your friendship :('
+        end
+    else
+      flash[:alert] = 'Your request cannot be process, try again later'
+    end
+    redirect_back fallback_location: users_path
+  end
+
   def edit; end
 
   def update
