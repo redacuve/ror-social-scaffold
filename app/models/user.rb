@@ -20,10 +20,16 @@ class User < ApplicationRecord
 
   scope :with_status, ->(status) { where 'user_friendships.status = ?', status }
 
-  def friend_status_with(user_id)
+  def invitation_status_with(user_id)
     return nil unless invitations.to_user(user_id).exists?
 
     invitations.to_user(user_id).first.status
+  end
+
+  def requested_status_with(user_id)
+    return nil unless requests.from_user(user_id).exists?
+
+    requests.from_user(user_id).first.status
   end
 
   def pending_invitations
