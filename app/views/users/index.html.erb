@@ -20,7 +20,7 @@
                 <%= 'DECLINED' %>
               <% when 'requested' %>
                 <%= button_tag 'Pending ۩', class: 'btn btn-checked', type: 'reset', disabled: true %>
-                <%= link_to '✘', user_friendship_path(current_user.pending_invitation_from(user), status: 'cancelled' ), class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to cancel this request?' } %>
+                <%= link_to '✘', user_friendship_path(current_user.pending_invitation_for(user), status: 'cancelled' ), class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to cancel this request?' } %>
             <% end %>
           <% else %>
             <% if !current_user.requested_status_with(user).nil?%> 

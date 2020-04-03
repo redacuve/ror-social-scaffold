@@ -16,21 +16,51 @@ RSpec.describe User, type: :model do
              password: '123456', gravatar_url: nil)
   end
 
-  let(:inv) do
-    user1.invitations.build(friend_id: user2.id, status: 'requested')
-  end
+  # let(:inv) do
+  #   user1.invitations.build(friend_id: user2.id, status: 'requested')
+  # end
 
   it 'should be able to create friend invitations' do
-    expect { inv.save }.to change { user1.invitations.count }.by(1)
+    expect { user1.invite user2.id }.to change { user1.invitations.count }.by(1)
+  end
+
+  it 'should not be able to invite a user if there is an invitation pending response already' do
+    user1.invite user2.id 
+    expect { user1.invite user2.id }.to_not change { user1.invitations.count }
   end
 
   it 'should be able to receive friend requests' do
-    expect { inv.save }.to change { user2.requests.count }.by(1)
+    expect { user1.invite user2.id }.to change { user2.requests.count }.by(1)
   end
 
-  it 'should not increment count of friends when invitation is declined' do
-    inv.save
-    expect { inv.update(status: 'declined') }.to change { user1.friends.count }.by(0)
+  it 'should not be able to increase friend requests if there is one pending response already' do
+    user1.invite user2.id 
+    expect { user1.invite user2.id }.to_not change { user2.requests.count }
+  end
+
+  it 'should not increase count of friends when invitation is declined' do
+    user1.invite user2.id
+    expect { user2.decline_request_from user1.id }.to_not change { user1.friends.count }
+    expect(user1.friends_with? user2.id).to be false 
+  end
+  
+  it 'should increase count of friends when invitation is accepted' do
+    user1.invite user2.id
+    expect { user2.accept_request_from user1.id }.to change { user1.friends.count }
+    expect(user1.friends_with? user2.id).to be true
+  end
+
+  it 'should reflect friendship for both sides' do
+    user1.invite user2.id
+    user2.accept_request_from user1.id
+    expect(user1.friends_with? user2.id).to be true
+    expect(user2.friends_with? user1.id).to be true
+  end
+
+  it 'it should be able to unfriend a user who was a friend' do
+    user1.invite user2.id
+    user2.accept_request_from user1.id
+    expect {user2.unfriend user1.id}.to change {user2.friends.count}
   end
 
   it 'is not valid if there are the same email saved' do

@@ -44,11 +44,11 @@ class User < ApplicationRecord
     invitations.to_user(user_id).with_status('requested').exists?
   end
 
-  def pending_invitation_from(user_id)
+  def pending_invitation_for(user_id)
     invitations.to_user(user_id).with_status('requested').first
   end
 
-  def pending_request_for?(user_id)
+  def pending_request_from?(user_id)
     requests.from_user(user_id).with_status('requested').exists?
   end
 
@@ -65,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def invite(user_id)
-    if pending_request_for?(user_id) || pending_invitation_for?(user_id) || user_id == id
+    if pending_request_from?(user_id) || pending_invitation_for?(user_id) || user_id == id
       puts 'Not invited because there was a pending invitation or request from that user'
     else
       UserFriendship.update_invite(id, user_id, 'requested')
