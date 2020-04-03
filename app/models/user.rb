@@ -20,6 +20,13 @@ class User < ApplicationRecord
 
   scope :with_status, ->(status) { where 'user_friendships.status = ?', status }
 
+  # Obtains users and his friends posts icreated date
+  def timeline_posts
+    friend_list = friends.map(&:id)
+    friend_list << id
+    Post.where('user_id IN (?)', friend_list).ordered_by_most_recent
+  end
+
   def pending_requests
     requests.with_status('requested')
   end
