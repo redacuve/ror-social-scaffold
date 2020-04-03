@@ -21,13 +21,6 @@ class UserFriendshipsController < ApplicationController
   def edit; end
 
   def update
-    # if @user_friendship.update(status: params[:status])
-    if params[:status] = 'confirmed' && current_user.accept_request_from(params[:id])
-       flash[:notice] = 'You responded to this invitation'
-    else
-      flash[:alert] = 'You cannot respond to this invitation right now please try again later'
-    end
-    redirect_to current_user
   end
 
   private
