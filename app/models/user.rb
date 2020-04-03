@@ -103,4 +103,11 @@ class User < ApplicationRecord
       puts 'this user was not your friend'
     end
   end
+  
+  def timeline_posts
+    friends_n_self = friends.map(&:id) 
+    friends_n_self << id
+    Post.where('user_id IN (?)', friends_n_self).ordered_by_most_recent
+  end
+
 end
