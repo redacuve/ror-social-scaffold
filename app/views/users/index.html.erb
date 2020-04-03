@@ -12,34 +12,32 @@
           <% if !current_user.invitation_status_with(user).nil? %>
             <% case current_user.invitation_status_with(user) %>
               <% when 'confirmed' %>
-                <%= button_tag 'Friends ✓', type: 'reset', disabled: true %>
-                <%= link_to '✘', "#", class: 'profile-link red', method:"PATCH", data: { confirm: 'Are you sure you want to delete this frienship?' } %>
+                <%= button_tag 'Friends ✓', class: 'btn btn-sucess', type: 'reset', disabled: true %>
+                <%= link_to '✘', "#", class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to delete this frienship?' } %>
               <% when 'cancelled' %>
                 <%= 'CANCELLED' %>
               <% when 'declined' %>
                 <%= 'DECLINED' %>
               <% when 'requested' %>
-                <%= button_tag 'Pending ۩', type: 'reset', disabled: true %>
-                <%= link_to '✘', "#", class: 'profile-link red', method:"PATCH", data: { confirm: 'Are you sure you want to cancel this request?' } %>
+                <%= button_tag 'Pending ۩', class: 'btn btn-checked', type: 'reset', disabled: true %>
+                <%= link_to '✘', "#", class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to cancel this request?' } %>
             <% end %>
           <% else %>
             <% if !current_user.requested_status_with(user).nil?%> 
               <% case current_user.requested_status_with(user) %>
               <% when 'confirmed' %>
-                <%= button_tag 'Friends ✓', type: 'reset', disabled: true %>
-                <%= link_to '✘', "#", class: 'profile-link red', method:"PATCH", data: { confirm: 'Are you sure you want to delete this frienship?' } %>
+                <%= button_tag 'Friends ✓', class: 'btn btn-sucess', type: 'reset', disabled: true %>
+                <%= link_to '✘', "#", class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to delete this frienship?' } %>
               <% when 'cancelled' %>
                 <%= 'CANCELLED' %>
-                <button type="button" class="btn btn-primary">cancelled</button>
               <% when 'declined' %>
                 <%= 'DECLINED' %>
-                <button type="button" class="btn btn-primary">Not</button>
               <% when 'requested' %>
-                <%= link_to 'Accept Friendship',  '#', class: 'profile-link', method: 'post', data: {confirm: "Are you sure you want to accept this request?" }%>
-                <%= link_to '✘', "#", class: 'profile-link red', method:"PATCH", data: { confirm: 'Are you sure you want to decline this request?' } %>
+                <%= link_to 'Accept Friendship',  '#', class: 'btn btn-success', method: 'post', data: {confirm: "Are you sure you want to accept this request?" }%>
+                <%= link_to '✘', "#", class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to decline this request?' } %>
             <% end %>
             <% else %>
-              <%= link_to 'Add Friend',  user_friendships_path(id: user.id), class: 'profile-link', method: 'post', data: {confirm: "Are you sure you want to add a friend?" }%>
+              <%= link_to 'Add Friend',  user_friendships_path(id: user.id), class: 'btn btn-primary', method: 'post', data: {confirm: "Are you sure you want to add a friend?" }%>
               <% end %>
           <% end %>
         <% end %>
