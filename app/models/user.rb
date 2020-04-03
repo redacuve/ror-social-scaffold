@@ -44,8 +44,16 @@ class User < ApplicationRecord
     invitations.to_user(user_id).with_status('requested').exists?
   end
 
-  def pending_request_from?(user_id)
+  def pending_invitation_from(user_id)
+    invitations.to_user(user_id).with_status('requested').first
+  end
+
+  def pending_request_for?(user_id)
     requests.from_user(user_id).with_status('requested').exists?
+  end
+
+  def pending_request_from(user_id)
+    requests.from_user(user_id).with_status('requested').first
   end
 
   def friends_with?(user_id)

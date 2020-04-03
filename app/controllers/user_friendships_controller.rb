@@ -21,6 +21,12 @@ class UserFriendshipsController < ApplicationController
   def edit; end
 
   def update
+    if UserFriendship.update_friendship(@user_friendship.user_id, @user_friendship.friend_id, params[:status])
+      flash[:notice] = 'You responded to this invitation'
+    else
+      flash[:alert] = 'You cannot respond to this invitation right now please try again later'
+    end
+    redirect_back fallback_location: current_user
   end
 
   private

@@ -33,7 +33,7 @@
               <% when 'declined' %>
                 <%= 'DECLINED' %>
               <% when 'requested' %>
-                <%= link_to 'Accept Friendship',  '#', class: 'btn btn-success', method: 'post', data: {confirm: "Are you sure you want to accept this request?" }%>
+                <%= link_to 'Accept Friendship', user_friendship_path(current_user.pending_request_from(user), status: 'confirmed' ), class: 'btn btn-success', method: 'PATCH', data: {confirm: "Are you sure you want to accept this request?" }%>
                 <%= link_to '✘', "#", class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to decline this request?' } %>
             <% end %>
             <% else %>
