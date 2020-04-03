@@ -14,7 +14,7 @@ class UserFriendship < ApplicationRecord
     if where(user_id: u_id, friend_id: f_id).exists?
       where(user_id: u_id, friend_id: f_id).update(status: status)
     else
-      create( user_id: u_id, friend_id: f_id, status: status)
+      create(user_id: u_id, friend_id: f_id, status: status)
     end
   end
 
@@ -22,12 +22,12 @@ class UserFriendship < ApplicationRecord
     if where(user_id: u_id, friend_id: f_id).exists?
       where(user_id: u_id, friend_id: f_id).update(status: status)
     else
-      create( user_id: u_id, friend_id: f_id, status: status)
+      create(user_id: u_id, friend_id: f_id, status: status)
     end
     if where(user_id: f_id, friend_id: u_id).exists?
       where(user_id: f_id, friend_id: u_id).update(status: status)
     else
-      create( user_id: f_id, friend_id: u_id, status: status)
+      create(user_id: f_id, friend_id: u_id, status: status)
     end
   end
 end
