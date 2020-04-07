@@ -1,28 +1,9 @@
 <section class="user-section">
-  <div class="d-flex just-between">
-    <h2><%= "Name: #{@user.name}" %></h2>
-    <% unless current_user == @user ||
-        current_user.pending_invitation_for?(@user) || 
-        current_user.friends_with?(@user) || 
-        current_user.pending_request_from?(@user) %>
-      <%= link_to 'Add Friend',  user_friendships_path(user_friendship: {user_id: current_user.id, friend_id: @user.id}), class: 'profile-btn', method: 'post' %>
-    <% end %>
-  </div>
+  <h2><%= "Name: #{@user.name}" %></h2>
   <article class="timeline">
     <h3>Recent posts:</h3>
     <ul class="posts">
       <%= render @posts %>
     </ul>
   </article>
-  <% if @user == current_user && current_user.requests.any? %>
-    <section class="pend-requests-section">
-      <article class="requests">
-        <h3>Pending Requests:</h3>
-        <ul class="request-list">
-          <%= render 'user_friendships/friend_requests', requests: current_user.pending_requests %>
-        </ul>
-      </article>
-    </section>
-  <% end %>
 </section>
-
