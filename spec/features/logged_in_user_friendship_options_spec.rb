@@ -1,6 +1,7 @@
 require 'rails_helper'
-# rubocop: disable Metrics/BlockLength
-RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitations/requests:' do
+
+# rubocop:disable Metrics/BlockLength
+RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitations/requests' do
   background do
     User.create(name: 'user_one', email: 'user_one@email.com', password: '123456')
     User.create(name: 'user_two', email: 'user_two@email.com', password: '123456')
@@ -50,4 +51,5 @@ RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitati
     click_button 'Log in'
   end
 end
-# rubocop: enable Metrics/BlockLength
+# rubocop:enable Metrics/BlockLength:
+
