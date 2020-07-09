@@ -7,14 +7,40 @@
           <% if user_signed_in? %>
             <%= link_to 'See Profile',  user_path(user), class: 'profile-link' %>
           <% end %>
-          <% unless current_user == user ||
-                    user.pending_friend?(current_user.id) || 
-                    current_user.friends_with?(user.id) || 
-                    current_user.invitations.to_user(user.id).with_status('requested').any? %>
-            <%= link_to 'Add Friend',  user_friendships_path(user_friendship: {user_id: current_user.id, friend_id: user.id}), class: 'profile-link', method: 'post' %>
-            
-          <% end %>
         </span>
+        <% if user.id != current_user.id %>
+          <% if !current_user.invitation_status_with(user).nil? %>
+            <% case current_user.invitation_status_with(user) %>
+              <% when 'confirmed' %>
+                <%= button_tag 'Friends ✓', class: 'btn btn-sucess', type: 'reset', disabled: true %>
+                <%= link_to '✘', user_friendship_path(current_user.friendship_with(user)), class: 'btn btn-danger', method:"DELETE", data: { confirm: 'Are you sure you want to delete this frienship?' } %>
+              <% when 'cancelled' %>
+                <%= 'CANCELLED' %>
+              <% when 'declined' %>
+                <%= 'DECLINED' %>
+              <% when 'requested' %>
+                <%= button_tag 'Pending ۩', class: 'btn btn-checked', type: 'reset', disabled: true %>
+                <%= link_to '✘', user_friendship_path(current_user.pending_invitation_for(user), status: 'cancelled' ), class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to cancel this request?' } %>
+            <% end %>
+          <% else %>
+            <% if !current_user.requested_status_with(user).nil?%> 
+              <% case current_user.requested_status_with(user) %>
+              <% when 'confirmed' %>
+                <%= button_tag 'Friends ✓', class: 'btn btn-sucess', type: 'reset', disabled: true %>
+                <%= link_to '✘', "#", class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to delete this frienship?' } %>
+              <% when 'cancelled' %>
+                <%= 'CANCELLED' %>
+              <% when 'declined' %>
+                <%= 'DECLINED' %>
+              <% when 'requested' %>
+                <%= link_to 'Accept Friendship', user_friendship_path(current_user.pending_request_from(user), status: 'confirmed' ), class: 'btn btn-success', method: 'PATCH', data: {confirm: "Are you sure you want to accept this request?" }%>
+                <%= link_to '✘', user_friendship_path(current_user.pending_request_from(user), status: 'declined' ), class: 'btn btn-danger', method:"PATCH", data: { confirm: 'Are you sure you want to decline this request?' } %>
+            <% end %>
+            <% else %>
+              <%= link_to 'Add Friend',  user_friendships_path(id: user.id), class: 'btn btn-primary', method: 'post', data: {confirm: "Are you sure you want to add a friend?" }%>
+              <% end %>
+          <% end %>
+        <% end %>
       </li>
     <% end %>
   </ul>

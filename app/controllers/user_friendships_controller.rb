@@ -10,10 +10,18 @@ class UserFriendshipsController < ApplicationController
   end
 
   def create
-    @user_friendship = UserFriendship.new(user_friendship_params)
-    @user_friendship.status = 'requested'
-    if @user_friendship.save
+    if current_user.invite(params[:id])
       flash[:notice] = 'Your friend request has been sent'
+    else
+      flash[:alert] = 'Your request cannot be process, try again later'
+    end
+    redirect_back fallback_location: users_path
+  end
+
+  def destroy
+    @user_inverse = UserFriendship.where(user_id: @user_friendship.friend_id, friend_id: @user_friendship.user_id).first
+    if @user_friendship.destroy
+      flash[:notice] = 'You have deleted your friendship :(' if @user_inverse.destroy
     else
       flash[:alert] = 'Your request cannot be process, try again later'
     end
@@ -23,12 +31,12 @@ class UserFriendshipsController < ApplicationController
   def edit; end
 
   def update
-    if @user_friendship.update(status: params[:status])
+    if UserFriendship.update_friendship(@user_friendship.user_id, @user_friendship.friend_id, params[:status])
       flash[:notice] = 'You responded to this invitation'
     else
       flash[:alert] = 'You cannot respond to this invitation right now please try again later'
     end
-    redirect_to current_user
+    redirect_back fallback_location: current_user
   end
 
   private

@@ -52,3 +52,4 @@ RSpec.feature 'Logged in user can send/receive/acept/decline friendship invitati
   end
 end
 # rubocop:enable Metrics/BlockLength:
+

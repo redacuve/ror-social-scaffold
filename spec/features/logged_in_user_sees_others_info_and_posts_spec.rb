@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Logged in user can see other users' do
+RSpec.feature 'Logged in user can see other users:' do
   background do
     User.create(name: 'user_one', email: 'user_one@email.com', password: '123456')
     User.create(name: 'user_two', email: 'user_two@email.com', password: '123456')

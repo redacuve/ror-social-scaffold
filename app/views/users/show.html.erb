@@ -1,5 +1,6 @@
 <section class="user-section">
   <div class="d-flex just-between">
+
   <h2><%= "Name: #{@user.name}" %></h2>
 
   <% unless current_user == @user ||
@@ -16,14 +17,14 @@
     </ul>
   </article>
   <% if @user == current_user && current_user.requests.any? %>
-  <section class="pend-requests-section">
-    <article class="requests">
-     <h3>Pending Requests:</h3>
-       <ul class="request-list">
-         <%= render 'user_friendships/friend_requests', requests: current_user.pending_requests %>
-       </ul>
-    </article>
-  </section>
-<% end %>
+    <section class="pend-requests-section">
+      <article class="requests">
+        <h3>Pending Requests:</h3>
+        <ul class="request-list">
+          <%= render 'user_friendships/friend_requests', requests: current_user.pending_requests %>
+        </ul>
+      </article>
+    </section>
+  <% end %>
 </section>
 
